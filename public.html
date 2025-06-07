@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosenberg Productions</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 20px; /* Add some padding to prevent content from touching edges */
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+        }
+
+        .logo-container {
+            flex-grow: 1; /* Allows the logo container to take up available space */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            max-width: 100%; /* Ensure the image scales down on smaller screens */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .email-address {
+            text-align: center;
+            margin-top: auto; /* Pushes the email to the bottom */
+            padding-bottom: 20px; /* Space from the bottom of the page */
+        }
+
+        .email-address a {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            color: inherit; /* Inherit color from parent to look like regular text */
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Optional: Add a media query for very small screens if needed */
+        @media (max-width: 600px) {
+            .logo {
+                max-width: 90%; /* Adjust logo size for very small screens if necessary */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <img src="your-logo.png" alt="Rosenberg Productions Logo" class="logo">
+    </div>
+
+    <div class="email-address">
+        <a href="mailto:tom@rosenbergproductions.com">tom@rosenbergproductions.com</a>
+    </div>
+
+</body>
+</html>
