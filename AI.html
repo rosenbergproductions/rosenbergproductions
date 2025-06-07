@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrolling Pages - Final Adjustments</title>
+    <title>Scrolling Pages - Responsive Debounce</title>
     <style>
         /* Basic Reset and Body Styling */
         html, body {
@@ -48,7 +48,7 @@
             justify-content: center; /* Center content vertically */
         }
 
-        #page2 {
+        #page2, #page3 { /* Styling applies to both page 2 and page 3 */
             background-color: #ffffff; /* White background for video page */
             flex-direction: row; /* Arrange items horizontally */
             flex-wrap: wrap; /* Allow items to wrap on smaller screens */
@@ -75,12 +75,12 @@
             flex-shrink: 0; /* Prevent video from shrinking too much */
         }
 
-        /* Text box styling - text size made smaller */
+        /* Text box styling */
         .text-box {
             background-color: transparent;
             color: #000000;
             font-family: Arial, sans-serif;
-            font-size: 0.9em; /* Reduced from 1.5em to 0.9em */
+            font-size: 0.9em; /* Smaller text size */
             text-align: left;
             max-width: 45%;
             padding: 20px;
@@ -111,7 +111,7 @@
 
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
-            #page2 {
+            #page2, #page3 { /* Apply to both page 2 and page 3 */
                 flex-direction: column;
                 gap: 20px;
                 padding: 40px 20px;
@@ -150,56 +150,91 @@
                 Your browser does not support the video tag.
             </video>
         </div>
+        <div class="page" id="page3">
+            <div class="text-box">
+                <h2>Dialogue Replacement</h2>
+                Modify or create speech in audio and video, preserving the original speaker's voice and natural delivery. This technology also enables seamless adaptation of dialogue for different languages.
+            </div>
+
+            <video preload="metadata" poster="video_01_thumbnail.jpg" muted playsinline>
+                <source src="video_01.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <script>
         const sliderContainer = document.getElementById('sliderContainer');
         let currentPage = 0;
-        const totalPages = 2;
+        const totalPages = 3;
 
-        let isTransitioning = false;
+        let isAnimating = false; // Flag for visual animation state
+
+        // Debounce timer for wheel events: blocks rapid successive scrolls
+        let wheelDebounceTimeout = null;
+        const WHEEL_DEBOUNCE_DELAY = 900; // REDUCED from 1200ms to 900ms
 
         function goToPage(pageIndex) {
             if (pageIndex >= 0 && pageIndex < totalPages) {
                 currentPage = pageIndex;
                 sliderContainer.style.transform = `translateY(${-currentPage * 100}vh)`;
-                isTransitioning = true;
+                isAnimating = true; // Set to true when animation starts
+
+                // Reset isAnimating after the CSS transition duration
                 setTimeout(() => {
-                    isTransitioning = false;
-                }, 600);
+                    isAnimating = false;
+                }, 600); // Matches CSS transition duration
             }
         }
 
         sliderContainer.addEventListener('wheel', (e) => {
-            if (isTransitioning) {
-                e.preventDefault();
+            e.preventDefault(); // Always prevent default browser scroll behavior
+
+            // 1. If a debounce timer is active, ignore this scroll event
+            if (wheelDebounceTimeout !== null) {
                 return;
             }
 
+            // 2. If a page animation is currently playing, ignore this scroll event
+            if (isAnimating) {
+                return;
+            }
+
+            let pageChangeTriggered = false;
+
             if (e.deltaY > 0) { // User scrolled DOWN
-                if (currentPage === 0) {
-                    goToPage(1);
+                if (currentPage < totalPages - 1) { // If not on the last page
+                    goToPage(currentPage + 1);
+                    pageChangeTriggered = true;
                 }
             } else if (e.deltaY < 0) { // User scrolled UP
-                if (currentPage === 1) {
-                    goToPage(0);
+                if (currentPage > 0) { // If not on the first page
+                    goToPage(currentPage - 1);
+                    pageChangeTriggered = true;
                 }
             }
-            e.preventDefault();
-        }, { passive: false });
+
+            // If a page change was actually triggered by this wheel event,
+            // start the debounce timer to block subsequent wheel events.
+            if (pageChangeTriggered) {
+                wheelDebounceTimeout = setTimeout(() => {
+                    wheelDebounceTimeout = null; // Clear the debounce after delay
+                }, WHEEL_DEBOUNCE_DELAY);
+            }
+        }, { passive: false }); // Ensure preventDefault works on wheel events
 
         document.addEventListener('keydown', (e) => {
-            if (isTransitioning) {
+            if (isAnimating) { // Block keyboard if animation is playing
                 return;
             }
 
             if (e.key === 'ArrowDown') {
-                if (currentPage === 0) {
-                    goToPage(1);
+                if (currentPage < totalPages - 1) {
+                    goToPage(currentPage + 1);
                 }
             } else if (e.key === 'ArrowUp') {
-                if (currentPage === 1) {
-                    goToPage(0);
+                if (currentPage > 0) {
+                    goToPage(currentPage - 1);
                 }
             }
         });
@@ -207,9 +242,9 @@
         goToPage(0); // Set initial page
 
         // --- JavaScript for Video Hover Autoplay ---
-        const videoElement = document.querySelector('#page2 video');
+        const videoElements = document.querySelectorAll('.page video');
 
-        if (videoElement) {
+        videoElements.forEach(videoElement => {
             videoElement.addEventListener('mouseenter', () => {
                 videoElement.play().catch(error => {
                     console.log("Autoplay prevented:", error);
@@ -220,7 +255,7 @@
                 videoElement.pause();
             });
             videoElement.loop = true;
-        }
+        });
     </script>
 
 </body>
