@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrolling Pages - Responsive Debounce</title>
+    <title>Scrolling Pages - Debounce Restored</title>
     <style>
         /* Basic Reset and Body Styling */
         html, body {
@@ -172,7 +172,7 @@
 
         // Debounce timer for wheel events: blocks rapid successive scrolls
         let wheelDebounceTimeout = null;
-        const WHEEL_DEBOUNCE_DELAY = 900; // REDUCED from 1200ms to 900ms
+        const WHEEL_DEBOUNCE_DELAY = 1200; // Restored to 1200ms for robustness
 
         function goToPage(pageIndex) {
             if (pageIndex >= 0 && pageIndex < totalPages) {
