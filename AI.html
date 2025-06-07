@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrolling Pages - Debounce Restored</title>
+    <title>Scrolling Pages with Linked Logo</title>
     <style>
         /* Basic Reset and Body Styling */
         html, body {
@@ -56,7 +56,7 @@
             align-content: center; /* Vertically center content if it wraps */
         }
 
-        /* Logo image styling */
+        /* Main Page Logo styling */
         .logo {
             max-width: 80%; /* Ensure the logo scales down on smaller screens */
             object-fit: contain; /* Ensures the image fits within its bounds without cropping */
@@ -109,9 +109,52 @@
             100% { opacity: 1; } /* Fade to fully visible */
         }
 
+        /* --- Top-Right Navigation Styling --- */
+        .top-right-nav {
+            position: fixed; /* Stays fixed in the viewport */
+            top: 20px; /* Distance from the top */
+            right: 20px; /* Distance from the right */
+            z-index: 1000; /* Ensures it's above other content */
+            display: flex;
+            gap: 15px; /* Space between links */
+        }
+
+        .top-right-nav a {
+            font-family: Arial, sans-serif; /* Arial font */
+            font-size: 8pt; /* 8pt size */
+            font-style: italic; /* Italic style */
+            color: #000000; /* Black color for links */
+            text-decoration: none; /* Remove underline */
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        .top-right-nav a:hover {
+            text-decoration: underline; /* Underline on hover for user feedback */
+        }
+
+        /* --- Top-Left Logo Styling --- */
+        .top-left-logo {
+            position: fixed; /* Stays fixed in the viewport */
+            top: 20px; /* Distance from the top */
+            left: 20px; /* Distance from the left */
+            z-index: 1000; /* Ensures it's above other content */
+        }
+
+        /* Style for the link around the image */
+        .top-left-logo a {
+            display: block; /* Make the link cover the image area */
+            line-height: 0; /* Remove extra space below image inside link */
+        }
+
+        .top-left-logo img {
+            height: 30px; /* Original height */
+            width: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below image */
+        }
+
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
-            #page2, #page3 { /* Apply to both page 2 and page 3 */
+            #page2, #page3 {
                 flex-direction: column;
                 gap: 20px;
                 padding: 40px 20px;
@@ -127,12 +170,42 @@
             }
 
             .logo {
-                margin-bottom: 30px; /* Adjust spacing for smaller screens */
+                margin-bottom: 30px;
+            }
+
+            .top-right-nav {
+                top: 10px;
+                right: 10px;
+                gap: 10px;
+            }
+
+            .top-right-nav a {
+                font-size: 7pt;
+            }
+
+            .top-left-logo {
+                top: 10px;
+                left: 10px;
+            }
+
+            .top-left-logo img {
+                height: 25px; /* Original height for smaller screens */
             }
         }
     </style>
 </head>
 <body>
+
+    <div class="top-left-logo">
+        <a href="https://rosenbergproductions.com" target="_blank">
+            <img src="logo_small.png" alt="Company Website">
+        </a>
+    </div>
+
+    <div class="top-right-nav">
+        <a href="https://rosenbergproductions.com" target="_blank">Home</a>
+        <a href="mailto:tom@rosenbergproductions.com">Contact</a>
+    </div>
 
     <div class="slider-container" id="sliderContainer">
         <div class="page" id="page1">
