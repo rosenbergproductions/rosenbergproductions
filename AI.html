@@ -4,196 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rosenberg Productions</title>
-    <style>
-        /* Basic Reset and Body Styling */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Hide scrollbars, essential for clean transitions */
-            font-family: Arial, sans-serif; /* Set Arial as default font */
-            background-color: #f8f8f8;
-            display: flex; /* Helps center content if needed */
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Slider Container - Holds all pages */
-        .slider-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column; /* Stack pages vertically */
-            transition: transform 0.6s ease-in-out; /* Smooth transition for vertical movement */
-        }
-
-        /* Individual Page Styles */
-        .page {
-            min-width: 100vw;   /* Take full viewport width */
-            min-height: 100vh;  /* Take full viewport height */
-            display: flex;
-            justify-content: center; /* Centers content horizontally */
-            align-items: center; /* Centers content vertically */
-            flex-shrink: 0;     /* Prevent pages from shrinking */
-            box-sizing: border-box; /* Include padding/border in element's total width/height */
-            position: relative; /* Needed for positioning elements within */
-            padding: 20px; /* Add some general padding for content */
-        }
-
-        /* Specific Page Backgrounds */
-        #page1 {
-            background-color: #ffffff; /* White background for the logo page */
-            flex-direction: column; /* Use column layout for logo and arrow */
-            justify-content: center; /* Center content vertically */
-        }
-
-        #page2, #page3 { /* Styling applies to both page 2 and page 3 */
-            background-color: #ffffff; /* White background for video page */
-            flex-direction: row; /* Arrange items horizontally */
-            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-            gap: 40px; /* Space between text box and video */
-            align-content: center; /* Vertically center content if it wraps */
-        }
-
-        /* Main Page Logo styling */
-        .logo {
-            max-width: 80%; /* Ensure the logo scales down on smaller screens */
-            object-fit: contain; /* Ensures the image fits within its bounds without cropping */
-            display: block; /* Removes extra space below image, good practice */
-            margin-bottom: 50px; /* Space between logo and arrow */
-            max-height: 50vh; /* Prevents logo from dominating entire page height */
-        }
-
-        /* Video styling */
-        .page video {
-            max-width: 45%;   /* Adjusted to fit next to text box */
-            max-height: 50vh; /* Limits height */
-            height: auto;     /* Maintain aspect ratio */
-            display: block;   /* Remove extra space below video */
-            cursor: pointer;
-            flex-shrink: 0; /* Prevent video from shrinking too much */
-        }
-
-        /* Text box styling */
-        .text-box {
-            background-color: transparent;
-            color: #000000;
-            font-family: Arial, sans-serif;
-            font-size: 0.9em; /* Smaller text size */
-            text-align: left;
-            max-width: 45%;
-            padding: 20px;
-            box-sizing: border-box;
-            flex-shrink: 0;
-        }
-
-        .text-box h2 {
-            font-size: 1.1em; /* Adjusted heading size to match new text size */
-            margin-top: 0;
-            margin-bottom: 0.5em;
-        }
-
-        /* Down Arrow Styling */
-        .down-arrow {
-            font-size: 2em; /* Size of the arrow */
-            color: #555; /* A subtle dark gray color */
-            animation: fadeEffect 2s infinite alternate; /* Apply animation */
-            display: block; /* Ensure it takes its own line for centering */
-            text-shadow: 0 0 5px rgba(0,0,0,0.1); /* Slight shadow for definition */
-        }
-
-        /* Keyframe animation for flashing effect */
-        @keyframes fadeEffect {
-            0% { opacity: 0.2; } /* Start nearly invisible */
-            100% { opacity: 1; } /* Fade to fully visible */
-        }
-
-        /* --- Updated Top-Right Navigation Styling --- */
-        .top-right-nav {
-            position: fixed; /* Stays fixed in the viewport */
-            top: 20px; /* Distance from the top */
-            right: 20px; /* Distance from the right */
-            z-index: 1000; /* Ensures it's above other content */
-            display: flex;
-            gap: 15px; /* Space between links */
-        }
-
-        .top-right-nav a {
-            font-family: Arial, sans-serif; /* Arial font */
-            font-size: 10pt; /* Changed from 8pt to 10pt */
-            font-style: italic; /* Italic style */
-            color: #585858; /* Changed from #000000 to #585858 */
-            text-decoration: none; /* Remove underline */
-            white-space: nowrap; /* Prevent wrapping */
-        }
-
-        .top-right-nav a:hover {
-            color: #000; /* Darken on hover */
-        }
-
-        /* --- Top-Left Logo Styling --- */
-        .top-left-logo {
-            position: fixed; /* Stays fixed in the viewport */
-            top: 20px; /* Distance from the top */
-            left: 20px; /* Distance from the left */
-            z-index: 1000; /* Ensures it's above other content */
-        }
-
-        /* Style for the link around the image */
-        .top-left-logo a {
-            display: block; /* Make the link cover the image area */
-            line-height: 0; /* Remove extra space below image inside link */
-        }
-
-        .top-left-logo img {
-            height: 30px; /* Original height */
-            width: auto; /* Maintain aspect ratio */
-            display: block; /* Remove extra space below image */
-        }
-
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 768px) {
-            #page2, #page3 {
-                flex-direction: column;
-                gap: 20px;
-                padding: 40px 20px;
-            }
-
-            .page video,
-            .text-box {
-                max-width: 90%;
-            }
-
-            .text-box {
-                text-align: center;
-            }
-
-            .logo {
-                margin-bottom: 30px;
-            }
-
-            .top-right-nav {
-                top: 10px;
-                right: 10px;
-                gap: 10px;
-            }
-
-            .top-right-nav a {
-                font-size: 9pt; /* Adjusted from 7pt to 9pt for responsiveness */
-                color: #585858; /* Ensure color consistency */
-            }
-
-            .top-left-logo {
-                top: 10px;
-                left: 10px;
-            }
-
-            .top-left-logo img {
-                height: 25px; /* Original height for smaller screens */
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -203,10 +14,7 @@
         </a>
     </div>
 
-    <div class="top-right-nav">
-        <a href="https://rosenbergproductions.com" target="_blank">Home</a>
-        <a href="mailto:tom@rosenbergproductions.com">Contact</a>
-    </div>
+    <a href="mailto:tom@rosenbergproductions.com" class="contact-link">Contact</a>
 
     <div class="slider-container" id="sliderContainer">
         <div class="page" id="page1">
@@ -326,7 +134,7 @@
             });
 
             videoElement.addEventListener('mouseleave', () => {
-                videoElement.pause();
+                    videoElement.pause();
             });
             videoElement.loop = true;
         });

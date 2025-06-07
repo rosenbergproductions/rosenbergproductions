@@ -4,72 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rosenberg Productions</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Keeps main content spaced vertically */
-            align-items: center; /* Centers items horizontally */
-            min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            box-sizing: border-box;
-            position: relative; /* Needed for absolute positioning of the contact link */
-        }
-
-        .logo-container {
-            flex-grow: 1; /* Allows the logo container to take up vertical space */
-            display: flex;
-            justify-content: center; /* Centers the logo horizontally */
-            align-items: center; /* Centers the logo vertically */
-            width: 100%;
-        }
-
-        .logo {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .contact-link-top { /* Style for the new contact link */
-            position: absolute; /* Positions the link relative to the body */
-            top: 20px; /* Distance from the top */
-            right: 20px; /* Distance from the right */
-            font-family: Arial, sans-serif;
-            font-size: 10pt;
-            color: #585858;
-            font-style: italic;
-            text-decoration: none;
-            padding: 5px 10px; /* Adds a bit of padding around the text */
-            white-space: nowrap; /* Prevents "Contact" from wrapping */
-            z-index: 10; /* Ensures it stays above other content if anything overlaps */
-        }
-
-        .contact-link-top:hover {
-            color: #000; /* Darken on hover */
-        }
-
-        /* Removed the .email-address styles as requested */
-
-        @media (max-width: 600px) {
-            .logo {
-                max-width: 90%;
-            }
-            .contact-link-top {
-                top: 15px; /* Adjust top padding for smaller screens */
-                right: 15px; /* Adjust right padding for smaller screens */
-                font-size: 9pt; /* Slightly smaller font for mobile */
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <a href="mailto:tom@rosenbergproductions.com" class="contact-link-top">Contact</a>
+    <a href="mailto:tom@rosenbergproductions.com" class="contact-link">Contact</a>
 
     <div class="logo-container">
         <img src="your-logo.png" alt="Rosenberg Productions Logo" class="logo">
     </div>
 
-    </body>
+</body>
 </html>
