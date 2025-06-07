@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Pages - Final Adjustments</title>
+    <style>
+        /* Basic Reset and Body Styling */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Hide scrollbars, essential for clean transitions */
+            font-family: Arial, sans-serif; /* Set Arial as default font */
+            background-color: #f8f8f8;
+            display: flex; /* Helps center content if needed */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Slider Container - Holds all pages */
+        .slider-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column; /* Stack pages vertically */
+            transition: transform 0.6s ease-in-out; /* Smooth transition for vertical movement */
+        }
+
+        /* Individual Page Styles */
+        .page {
+            min-width: 100vw;   /* Take full viewport width */
+            min-height: 100vh;  /* Take full viewport height */
+            display: flex;
+            justify-content: center; /* Centers content horizontally */
+            align-items: center; /* Centers content vertically */
+            flex-shrink: 0;     /* Prevent pages from shrinking */
+            box-sizing: border-box; /* Include padding/border in element's total width/height */
+            position: relative; /* Needed for positioning elements within */
+            padding: 20px; /* Add some general padding for content */
+        }
+
+        /* Specific Page Backgrounds */
+        #page1 {
+            background-color: #ffffff; /* White background for the logo page */
+            flex-direction: column; /* Use column layout for logo and arrow */
+            justify-content: center; /* Center content vertically */
+        }
+
+        #page2 {
+            background-color: #ffffff; /* White background for video page */
+            flex-direction: row; /* Arrange items horizontally */
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            gap: 40px; /* Space between text box and video */
+            align-content: center; /* Vertically center content if it wraps */
+        }
+
+        /* Logo image styling */
+        .logo {
+            max-width: 80%; /* Ensure the logo scales down on smaller screens */
+            object-fit: contain; /* Ensures the image fits within its bounds without cropping */
+            display: block; /* Removes extra space below image, good practice */
+            margin-bottom: 50px; /* Space between logo and arrow */
+            max-height: 50vh; /* Prevents logo from dominating entire page height */
+        }
+
+        /* Video styling */
+        .page video {
+            max-width: 45%;   /* Adjusted to fit next to text box */
+            max-height: 50vh; /* Limits height */
+            height: auto;     /* Maintain aspect ratio */
+            display: block;   /* Remove extra space below video */
+            cursor: pointer;
+            flex-shrink: 0; /* Prevent video from shrinking too much */
+        }
+
+        /* Text box styling - text size made smaller */
+        .text-box {
+            background-color: transparent;
+            color: #000000;
+            font-family: Arial, sans-serif;
+            font-size: 0.9em; /* Reduced from 1.5em to 0.9em */
+            text-align: left;
+            max-width: 45%;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .text-box h2 {
+            font-size: 1.1em; /* Adjusted heading size to match new text size */
+            margin-top: 0;
+            margin-bottom: 0.5em;
+        }
+
+        /* Down Arrow Styling */
+        .down-arrow {
+            font-size: 2em; /* Size of the arrow */
+            color: #555; /* A subtle dark gray color */
+            animation: fadeEffect 2s infinite alternate; /* Apply animation */
+            display: block; /* Ensure it takes its own line for centering */
+            text-shadow: 0 0 5px rgba(0,0,0,0.1); /* Slight shadow for definition */
+        }
+
+        /* Keyframe animation for flashing effect */
+        @keyframes fadeEffect {
+            0% { opacity: 0.2; } /* Start nearly invisible */
+            100% { opacity: 1; } /* Fade to fully visible */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            #page2 {
+                flex-direction: column;
+                gap: 20px;
+                padding: 40px 20px;
+            }
+
+            .page video,
+            .text-box {
+                max-width: 90%;
+            }
+
+            .text-box {
+                text-align: center;
+            }
+
+            .logo {
+                margin-bottom: 30px; /* Adjust spacing for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slider-container" id="sliderContainer">
+        <div class="page" id="page1">
+            <img src="page1.png" alt="Company Logo" class="logo">
+            <span class="down-arrow">&#x2193;</span>
+        </div>
+        <div class="page" id="page2">
+            <div class="text-box">
+                <h2>Dialogue Replacement</h2>
+                Modify or create speech in audio and video, preserving the original speaker's voice and natural delivery. This technology also enables seamless adaptation of dialogue for different languages.
+            </div>
+
+            <video preload="metadata" poster="video_01_thumbnail.jpg" muted playsinline>
+                <source src="video_01.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        const sliderContainer = document.getElementById('sliderContainer');
+        let currentPage = 0;
+        const totalPages = 2;
+
+        let isTransitioning = false;
+
+        function goToPage(pageIndex) {
+            if (pageIndex >= 0 && pageIndex < totalPages) {
+                currentPage = pageIndex;
+                sliderContainer.style.transform = `translateY(${-currentPage * 100}vh)`;
+                isTransitioning = true;
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 600);
+            }
+        }
+
+        sliderContainer.addEventListener('wheel', (e) => {
+            if (isTransitioning) {
+                e.preventDefault();
+                return;
+            }
+
+            if (e.deltaY > 0) { // User scrolled DOWN
+                if (currentPage === 0) {
+                    goToPage(1);
+                }
+            } else if (e.deltaY < 0) { // User scrolled UP
+                if (currentPage === 1) {
+                    goToPage(0);
+                }
+            }
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('keydown', (e) => {
+            if (isTransitioning) {
+                return;
+            }
+
+            if (e.key === 'ArrowDown') {
+                if (currentPage === 0) {
+                    goToPage(1);
+                }
+            } else if (e.key === 'ArrowUp') {
+                if (currentPage === 1) {
+                    goToPage(0);
+                }
+            }
+        });
+
+        goToPage(0); // Set initial page
+
+        // --- JavaScript for Video Hover Autoplay ---
+        const videoElement = document.querySelector('#page2 video');
+
+        if (videoElement) {
+            videoElement.addEventListener('mouseenter', () => {
+                videoElement.play().catch(error => {
+                    console.log("Autoplay prevented:", error);
+                });
+            });
+
+            videoElement.addEventListener('mouseleave', () => {
+                videoElement.pause();
+            });
+            videoElement.loop = true;
+        }
+    </script>
+
+</body>
+</html>
