@@ -13,12 +13,12 @@
             min-height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            padding: 20px; /* Add some padding to prevent content from touching edges */
-            box-sizing: border-box; /* Include padding in the element's total width and height */
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .logo-container {
-            flex-grow: 1; /* Allows the logo container to take up available space */
+            flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,27 +26,27 @@
         }
 
         .logo {
-            max-width: 100%; /* Ensure the image scales down on smaller screens */
-            height: auto; /* Maintain aspect ratio */
+            max-width: 100%;
+            height: auto;
         }
 
         .email-address {
             text-align: center;
-            margin-top: auto; /* Pushes the email to the bottom */
-            padding-bottom: 20px; /* Space from the bottom of the page */
+            margin-top: auto;
+            padding-bottom: 20px;
         }
 
         .email-address a {
             font-family: Arial, sans-serif;
             font-size: 10pt;
-            color: inherit; /* Inherit color from parent to look like regular text */
-            text-decoration: none; /* Remove underline */
+            color: #585858;
+            font-style: italic;
+            text-decoration: none;
         }
 
-        /* Optional: Add a media query for very small screens if needed */
         @media (max-width: 600px) {
             .logo {
-                max-width: 90%; /* Adjust logo size for very small screens if necessary */
+                max-width: 90%;
             }
         }
     </style>
